@@ -1,0 +1,395 @@
+GuiControl, Hide, LeftB
+GuiControl, Hide, LeftBLine
+GuiControl, Hide, LeftBglow
+
+GuiControl, Hide, RightB
+GuiControl, Hide, RightBLine
+GuiControl, Hide, RightBglow
+
+GuiControl, Hide, WheelC
+GuiControl, Hide, WheelCLine
+GuiControl, Hide, WheelCLineU
+GuiControl, Hide, WheelBackground
+GuiControl, Hide, WheelCglow
+GuiControl, Hide, WheelSU
+GuiControl, Hide, WheelSD
+GuiControl, Hide, WheelSL
+GuiControl, Hide, WheelSR
+GuiControl, Hide, WSUT
+GuiControl, Hide, WSDT
+GuiControl, Hide, WCT
+GuiControl, Hide, WSLT
+GuiControl, Hide, WSRT
+
+GuiControl, Hide, G4
+GuiControl, Hide, G4glow
+GuiControl, Hide, G4Line
+GuiControl, Hide, G6
+GuiControl, Hide, G6glow
+GuiControl, Hide, G6Line
+
+GuiControl, Hide, G5
+GuiControl, Hide, G5glow
+GuiControl, Hide, G5Line
+GuiControl, Hide, G7
+GuiControl, Hide, G7glow
+GuiControl, Hide, G7Line
+
+GuiControl, Hide, G8
+GuiControl, Hide, G8glow
+GuiControl, Hide, G8Line
+
+GuiControl, Hide, G9
+GuiControl, Hide, G9glow
+GuiControl, Hide, G9Line
+
+GuiControl, Hide, G10
+GuiControl, Hide, G10glow
+GuiControl, Hide, G10Line
+
+GuiControl, Hide, G11
+GuiControl, Hide, G11glow
+GuiControl, Hide, G11Line
+
+	;GuiControlGet LeftBShow, Visible, LeftB
+	;GuiControlGet RightBShow, Visible, RightB
+	;GuiControlGet WheelCShow, Visible, WheelC
+	;GuiControlGet G4Show, Visible, G4
+	;GuiControlGet G5Show, Visible, G5
+	;GuiControlGet G6Show, Visible, G6
+	;GuiControlGet G7Show, Visible, G7
+	;GuiControlGet G8Show, Visible, G8
+	;GuiControlGet G9Show, Visible, G9
+	;GuiControlGet G10Show, Visible, G10
+
+
+;Left Button Trigger
+	;If (CurrControl = TriggerLeftBv)
+	;	GuiControl, Show, LeftBglow
+	;Else If (LeftBShow = 0)
+	;	GuiControl, Hide, LeftBglow
+	;Return
+	
+	;Right Button Trigger
+	;If (CurrControl = TriggerRightBv) 
+	;	GuiControl, Show, RightBglow
+	;Else If (RightBShow = 0)
+	;	GuiControl, Hide, RightBglow
+	;Return
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		GuiControl, Hide, LeftB
+		GuiControl, Hide, LeftBLine
+		GuiControl, Hide, LeftBglow
+		;GuiControl, Hide, RightB
+		;GuiControl, Hide, RightBLine
+		;GuiControl, Hide, RightBglow
+		;GuiControl, Hide, WheelC
+		;GuiControl, Hide, WheelCLine
+		;GuiControl, Hide, WheelCglow
+		;GuiControl, Hide, G08
+		;GuiControl, Hide, G8Line
+		;GuiControl, Hide, G09
+		;GuiControl, Hide, G9Line
+		;GuiControl, Hide, G10
+		;GuiControl, Hide, G10Line	
+		
+		GuiControl, Show, LeftB
+		GuiControl, Show, LeftBLine
+		GuiControl, Show, LeftBglow
+		;GuiControl, Show, RightB
+		;GuiControl, Show, RightBLine
+		;GuiControl, Show, RightBglow
+		;GuiControl, Show, WheelC
+		;GuiControl, Show, WheelCLine
+		;GuiControl, Show, WheelCglow
+		;GuiControl, Show, G08
+		;GuiControl, Show, G8Line
+		;GuiControl, Show, G09
+		;GuiControl, Show, G9Line
+		;GuiControl, Show, G10
+		;GuiControl, Show, G10Line
+
+OnMessage(0x200, "WM_MOUSEMOVE")
+OnMessage(0x201, "WM_MouseDown")
+OnMessage(0x202, "WM_MouseUp")
+
+
+WM_MOUSEMOVE(){
+  static CurrControl, PrevControl,_Status  ; _TT is kept blank for use by the ToolTip command below.
+  Global PicBtnExtract_Status,PicBtnExtractAll_Status
+  If (instr(A_Guicontrol,"PicBtn")){
+    CurrControl:=A_GuiControl
+    If (CurrControl != PrevControl and %CurrControl%_Status <> "Raised" and !GetKeyState("Lbutton")){
+      %CurrControl%_Status:="Raised"
+      GuiControl,,%CurrControl%,%CurrControl%High.gif
+    }
+    Else If (CurrControl != PrevControl and %PrevControl%_Status = "Raised" !GetKeyState("Lbutton")){
+      %PrevControl%_Status:="Lowered"
+      GuiControl,,%PrevControl%,%PrevControl%Normal.gif
+    }
+    Else If (CurrControl = PrevControl and %CurrControl%_Status <> "Pressed" and GetKeyState("Lbutton")){
+      GuiControl,,%a_guicontrol%,%a_guiControl%Pressed.gif
+      %a_guiControl%_Status:="Pressed"
+      
+    }
+    Else If (%CurrControl%_Status = "Pressed" and !GetKeyState("Lbutton")){
+      %CurrControl%_Status:="Raised"
+      GuiControl,,%CurrControl%,%CurrControl%High.gif
+    }
+  }
+  Else If (a_guiControl != PrevControl and %PrevControl%_Status = "Raised"){
+    %PrevControl%_Status:="Lowered"
+    GuiControl,,%PrevControl%,%PrevControl%Normal.gif
+  }
+  Else If (%PrevControl%_Status = "Pressed"){
+    %PrevControl%_Status:="Lowered"
+    GuiControl,,%PrevControl%,%PrevControl%Normal.gif
+  }
+  PrevControl:=A_GuiControl
+  ;ToolTip % GetKeyState(Lbutton)
+  Return
+}
+
+WM_MouseDown(){
+  static CurrControl, PrevControl,_Status,test
+  Global PicBtnExtract_Status,PicBtnExtractAll_Status
+  If (instr(A_Guicontrol,"PicBtn")){
+    CurrControl:=A_Guicontrol
+    If (CurrControl != PrevControl and %CurrControl%_Status != "Pressed"){
+      GuiControl,,%a_guicontrol%,%a_guiControl%Pressed.gif
+      %a_guiControl%_Status:="Pressed"
+    }
+    Else If (%CurrControl%_Status != "Pressed"){
+      GuiControl,,%a_guicontrol%,%a_guiControl%Pressed.gif
+      %a_guiControl%_Status:="Pressed"
+    }
+    If (CurrControl != PrevControl and %PrevControl%_Status != "Pressed"){
+      %PrevControl%_Status:="Lowered"
+      GuiControl,,%PrevControl%,%PrevControl%Normal.gif
+    }
+  }
+  PrevControl:=CurrControl
+}
+
+WM_MouseUp(){
+  static CurrControl, PrevControl,_Status
+  Global PicBtnExtract_Status,PicBtnExtractAll_Status
+  If (instr(A_Guicontrol,"PicBtn")){
+    GuiControl,,%a_guicontrol%,%a_guiControl%Raised.gif
+    %a_guiControl%_Status:="Raised"
+    settimer,%a_guicontrol%,200
+  }
+}
+
+
+
+G10:
+	Gui, Submit, NoHide
+	If (G10 = "Right Click" ){
+		TrayTip , , Right Click, 10,
+	}
+	Else If (G10 = "Left Click" ){
+		TrayTip , , Left Click, 10,
+	}
+	Else If (G10 = "Middle Click" ){
+		TrayTip , , Middle Click, 10,
+	}
+	Else If (G10 = "Cut" ){
+		TrayTip , , Cut, 10,
+	}
+	Else If (G10 = "Copy" ){
+		TrayTip , , Copy, 10,
+	}
+	Else If (G10 = "Paste" ){
+		TrayTip , , Paste, 10,
+	}
+Return
+
+G09:
+	Gui, Submit, NoHide
+	If (G09 = "Right Click" ){
+		TrayTip , , Right Click, 10,
+	}
+	Else If (G09 = "Left Click" ){
+		TrayTip , , Left Click, 10,
+	}
+	Else If (G09 = "Middle Click" ){
+		TrayTip , , Middle Click, 10,
+	}
+	Else If (G09 = "Cut" ){
+		TrayTip , , Cut, 10,
+	}
+	Else If (G09 = "Copy" ){
+		TrayTip , , Copy, 10,
+	}
+	Else If (G09 = "Paste" ){
+		TrayTip , , Paste, 10,
+	}
+Return
+
+G08:
+	Gui, Submit, NoHide
+	If (G08 = "Right Click" ){
+		TrayTip , , Right Click, 10,
+	}
+	Else If (G08 = "Left Click" ){
+		TrayTip , , Left Click, 10,
+	}
+	Else If (G08 = "Middle Click" ){
+		TrayTip , , Middle Click, 10,
+	}
+	Else If (G08 = "Cut" ){
+		TrayTip , , Cut, 10,
+	}
+	Else If (G08 = "Copy" ){
+		TrayTip , , Copy, 10,
+	}
+	Else If (G08 = "Paste" ){
+		TrayTip , , Paste, 10,
+	}
+Return
+
+RightB:
+	Gui, Submit, NoHide
+	If (RightB = "Right Click" ){
+		TrayTip , , Right Click, 10,
+	}
+	Else If (RightB = "Left Click" ){
+		TrayTip , , Left Click, 10,
+	}
+	Else If (RightB = "Middle Click" ){
+		TrayTip , , Middle Click, 10,
+	}
+	Else If (RightB = "Cut" ){
+		TrayTip , , Cut, 10,
+	}
+	Else If (RightB = "Copy" ){
+		TrayTip , , Copy, 10,
+	}
+	Else If (RightB = "Paste" ){
+		TrayTip , , Paste, 10,
+	}
+Return
+
+LeftB:
+	Gui, Submit, NoHide
+	If (LeftB = "Right Click" ){
+		TrayTip , , Right Click, 10,
+	}
+	Else If (LeftB = "Left Click" ){
+		TrayTip , , Left Click, 10,
+	}
+	Else If (LeftB = "Middle Click" ){
+		TrayTip , , Middle Click, 10,
+	}
+	Else If (LeftB = "Cut" ){
+		TrayTip , , Cut, 10,
+	}
+	Else If (LeftB = "Copy" ){
+		TrayTip , , Copy, 10,
+	}
+	Else If (LeftB = "Paste" ){
+		TrayTip , , Paste, 10,
+	}
+Return
+
+WheelC:
+	Gui, Submit, NoHide
+	If (WheelC = "Right Click" ){
+		TrayTip , , Right Click, 10,
+	}
+	Else If (WheelC = "Left Click" ){
+		TrayTip , , Left Click, 10,
+	}
+	Else If (WheelC = "Middle Click" ){
+		TrayTip , , Middle Click, 10,
+	}
+	Else If (WheelC = "Cut" ){
+		TrayTip , , Cut, 10,
+	}
+	Else If (WheelC = "Copy" ){
+		TrayTip , , Copy, 10,
+	}
+	Else If (WheelC = "Paste" ){
+		TrayTip , , Paste, 10,
+	}
+Return
+
+G8 - G10 Buttons
+Gui, Add, DropDownList, x115 y20 w120 r6 vG10 gG10, Right Click|Left Click|Middle Click|Cut||Copy|Paste		;G10
+Gui, Add, DropDownList, x90 y60 w120 r6 vG09 gG09, Right Click|Left Click|Middle Click|Cut|Copy||Paste		;G9
+Gui, Add, DropDownList, x65 y100 w120 r6 vG08 gG08, Right Click|Left Click|Middle Click|Cut|Copy|Paste||	;G8
+Gui, Add, Picture, x235 y34 h251 altsubmit BackgroundTrans vG8Line, Images\box.png				;G8
+Gui, Add, Picture, x210 y74 h201 altsubmit BackgroundTrans vG9Line, Images\box.png				;G9
+Gui, Add, Picture, x185 y114 h146 altsubmit BackgroundTrans vG10Line, Images\box.png			;G10
+
+
+
