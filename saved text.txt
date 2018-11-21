@@ -1,3 +1,10 @@
+; Misc code used for the Mouse Gui or code that may
+; be used. This file is where code is placed that I
+; may use is furure and used to assist in guilding my
+; complex Gui AHK script.
+
+
+
 GuiControl, Hide, LeftB
 GuiControl, Hide, LeftBLine
 GuiControl, Hide, LeftBglow
